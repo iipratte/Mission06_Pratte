@@ -1,43 +1,52 @@
-﻿@model Movie
-
-@{
-    ViewData["Title"] = "Add Movie";
+﻿@{
+    ViewData["Title"] = "Movie Editor";
 }
 
+@model Movie
+
 <div class="text-center mb-4">
-    <h1 class="display-4">Add Movie to Collection</h1>
+    <h1 class="display-4">Movie Editor</h1>
     <hr class="w-25 mx-auto" />
 </div>
 
 <div class="row justify-content-center">
     <div class="col-md-6 border p-4 shadow-sm bg-light rounded">
         <form method="post">
-            
-            <div class="mb-3">
-                <label asp-for="Category" class="form-label fw-bold">Category</label>
-                <input asp-for="Category" class="form-control" required />
-            </div>
+
+            <!-- This allows the Movie ID to be a part of the record without it being displayed.
+            This is important to allow it to update instead of creating new records. -->
+            <input type="hidden" asp-for="MovieId" /> 
 
             <div class="mb-3">
                 <label asp-for="Title" class="form-label fw-bold">Title</label>
-                <input asp-for="Title" class="form-control" required />
+                <input asp-for="Title" class="form-control" />
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label asp-for="Year" class="form-label fw-bold">Year</label>
-                    <input asp-for="Year" class="form-control" required />
+                    <input asp-for="Year" class="form-control" />
                 </div>
                 <div class="col-md-6 mb-3">
                     <label asp-for="Director" class="form-label fw-bold">Director</label>
-                    <input asp-for="Director" class="form-control" required />
+                    <input asp-for="Director" class="form-control" />
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
+                    <label asp-for="CategoryId" class="form-label fw-bold">Category</label>
+                    <select asp-for="CategoryId" class="form-select">
+                        <option value="">Select a Category</option>
+                        @foreach (Category category in ViewBag.Categories)
+                        {
+                            <option value="@category.CategoryId">@category.CategoryName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
                     <label asp-for="Rating" class="form-label fw-bold">Rating</label>
-                    <select asp-for="Rating" class="form-select" required>
+                    <select asp-for="Rating" class="form-select">
                         <option value="">Select Rating...</option>
                         <option value="G">G</option>
                         <option value="PG">PG</option>
@@ -45,9 +54,19 @@
                         <option value="R">R</option>
                     </select>
                 </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-6 mb-3">
                     <label asp-for="Edited" class="form-label fw-bold">Edited</label>
                     <select asp-for="Edited" class="form-select">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CopiedToPlex" class="form-label fw-bold">Copied to Plex?</label>
+                    <select asp-for="CopiedToPlex" class="form-select">
                         <option value="false">No</option>
                         <option value="true">Yes</option>
                     </select>
@@ -67,7 +86,9 @@
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary btn-lg">Submit Movie</button>
             </div>
-            
+
+            <div asp-validation-summary="All"></div>
+
         </form>
     </div>
 </div>

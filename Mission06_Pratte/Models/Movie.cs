@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mission06_Pratte.Models
 {
@@ -6,27 +8,33 @@ namespace Mission06_Pratte.Models
     {
         [Key]
         [Required]
+        public int MovieId { get; set; }
 
-        public int MovieID { get; set; }
-        
-        [Required]
+
+        [Required(ErrorMessage = "Please enter a title.")]
         public string Title { get; set; }
 
-        [Required]
-        public string Category { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public int? CategoryId { get; set; }
+        public Category? CategoryName { get; set; }
+
+
+        [Required(ErrorMessage = "Please enter a year.")] // Validate empty field
+        [Range(1888,3000,ErrorMessage = "Please enter a valid year.")] // Validate field range
+        public int? Year { get; set; }
+
+        public string? Director { get; set; }
+
+        public string? Rating { get; set; }
 
         [Required]
-        public string Year { get; set; }
-
-        [Required]
-        public string Director { get; set; }
-
-        [Required]
-        public string Rating { get; set; }
-
         public bool Edited { get; set; }
 
         public string? LentTo { get; set; }
+
+        [Required]
+        public bool CopiedToPlex { get; set; }
 
         public string? Notes { get; set; }
     }

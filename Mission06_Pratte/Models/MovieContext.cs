@@ -10,5 +10,6 @@ namespace Mission06_Pratte.Models
         }
 
         public DbSet<Movie> Movies { get; set; } // Movies is the name of the table in the database, and Movie is the name of the model class that represents the data in that table.
+        public DbSet<Category> Categories { get; set; } // Connects Categories table
     }
 }
